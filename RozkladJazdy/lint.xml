@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="NewApi">
+        <ignore path="src/com/example/rozkladjazdy/MainActivity.java" />
+        <ignore path="src/com/example/rozkladjazdy/TimeTableActivity.java" />
+    </issue>
+    <issue id="SdCardPath">
+        <ignore path="src/com/example/rozkladjazdy/DataBaseHelper.java" />
+    </issue>
+</lint>
