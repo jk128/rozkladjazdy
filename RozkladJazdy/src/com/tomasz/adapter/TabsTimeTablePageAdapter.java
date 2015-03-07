@@ -1,6 +1,7 @@
-package com.example.tabsswipe.adapter;
+package com.tomasz.adapter;
 
-import com.example.rozkladjazdy.*;
+import com.tomasz.rozkladjazdy.*;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

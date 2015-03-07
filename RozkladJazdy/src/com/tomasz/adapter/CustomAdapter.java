@@ -1,4 +1,6 @@
-package com.example.rozkladjazdy;
+package com.tomasz.adapter;
+
+import com.example.rozkladjazdy.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -44,6 +46,7 @@ public class CustomAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.list_item,parent,false);
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.textView1);
+            holder.tv.setTextSize(24);
             holder.iv = (ImageView) convertView.findViewById(R.id.imageView1);
             convertView.setTag(holder);
         }

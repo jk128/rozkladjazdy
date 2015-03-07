@@ -1,4 +1,10 @@
-package com.example.rozkladjazdy;
+package com.tomasz.rozkladjazdy;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.example.rozkladjazdy.R;
 
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
@@ -44,13 +50,13 @@ public class SearchLineActivity extends ActionBarActivity {
 		 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, numbers);
- 
-		gridView.setAdapter(adapter);
+		List<String> list = new ArrayList<String>(Arrays.asList(numbers));
+		//gridView.setAdapter(adapter);
+		gridView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item_line, list));
+    
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
 				int position, long id) {
-			   Toast.makeText(getApplicationContext(),
-				((TextView) v).getText(), Toast.LENGTH_SHORT).show();
 			   nazwa=((TextView) v).getText().toString();
 			  
 		     //  showDialog.setArguments(args);
@@ -77,7 +83,7 @@ public class SearchLineActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_info) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

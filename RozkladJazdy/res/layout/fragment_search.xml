@@ -1,16 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:orientation="vertical">
-     
-    <TextView android:layout_width="fill_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/source"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Wyszukiwanie"
-        android:textSize="20dp"
-        android:layout_centerInParent="true"/>
-     
- 
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:editable="FALSE"
+        android:ems="10"
+        android:text="@string/source_bus_stop" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/changeSequence"
+        android:editable="FALSE"
+        android:ems="10"
+        android:text="@string/destination_bus_stop" />
+
+    <ImageView
+        android:id="@+id/changeSequence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/source"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_arrow_round_change" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/destination" >
+
+        <RadioButton
+            android:id="@+id/radio0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="odjazd teraz" />
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="czas do odjazdu" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editText1MinToDep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/radioGroup1"
+        android:layout_marginLeft="22dp"
+        android:layout_toRightOf="@+id/radioGroup1"
+        android:ems="3"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/search_button"
+        android:drawableLeft="@drawable/exclamation_mark_icon"
+        android:text="Wyszukiwanie obejmuje maksymalnie jedną przesiadkę"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editText1MinToDep"
+        android:layout_marginLeft="35dp"
+        android:layout_toRightOf="@+id/editText1MinToDep"
+        android:text="min"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/radioGroup1"
+        android:layout_marginTop="17dp"
+        android:textOff="bez przesiadki"
+        android:textOn="z przesiadką" />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/toggleButton1"
+        android:layout_marginTop="14dp"
+        android:background="@color/myBlue1"
+        android:text="Wyszukaj" />
+
 </RelativeLayout>

@@ -1,10 +1,11 @@
-package com.example.rozkladjazdy;
+package com.tomasz.model;
 
-public class FavoriteTimeTable { //_id, busStopId, lineId, nazwa ||' LINIA: ' || LINIA AS NAZWA from ULUBION
+public class FavoriteTimeTable {
 	private int id;
 	private String busStopId;
 	private String lineId;
 	private String nazwa;
+	private int icon;
 	public int getId() {
 		return id;
 	}
@@ -39,6 +40,14 @@ public class FavoriteTimeTable { //_id, busStopId, lineId, nazwa ||' LINIA: ' ||
 
 	public void setBusStopId(String busStopId) {
 		this.busStopId = busStopId;
+	}
+
+	public int getIcon() {
+		return icon;
+	}
+
+	public void setIcon(int icon) {
+		this.icon = icon;
 	}
 
 }

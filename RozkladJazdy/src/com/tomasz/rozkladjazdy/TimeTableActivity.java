@@ -1,6 +1,8 @@
-package com.example.rozkladjazdy;
+package com.tomasz.rozkladjazdy;
 
-import com.example.tabsswipe.adapter.TabsTimeTablePageAdapter;
+import com.example.rozkladjazdy.About;
+import com.example.rozkladjazdy.R;
+import com.tomasz.adapter.TabsTimeTablePageAdapter;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -8,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,6 +70,7 @@ ActionBar.TabListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.time_table, menu);
+		
 		return true;
 	}
 
@@ -77,12 +81,12 @@ ActionBar.TabListener {
 		// as you specify a parent activity in AndroidManifest.xml.
 	
 		switch (item.getItemId()) {
-        case R.id.action_settings:
-           //cos
+        case R.id.action_info:
+        	Intent intent = new Intent(this, About.class);
+			   
+		    startActivity(intent);
             return true;
-        case R.id.action_favorite:
-        	
-            return true;
+        
         default:
             return super.onOptionsItemSelected(item);
     }

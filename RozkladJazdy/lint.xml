@@ -2,7 +2,16 @@
 <lint>
     <issue id="NewApi">
         <ignore path="src/com/example/rozkladjazdy/MainActivity.java" />
+        <ignore path="src/com/example/rozkladjazdy/MapsActivity.java" />
         <ignore path="src/com/example/rozkladjazdy/TimeTableActivity.java" />
+        <ignore path="src/com/tomasz/rozkladjazdy/TimeTableActivity.java" />
+    </issue>
+    <issue id="ResourceAsColor">
+        <ignore path="src/com/example/rozkladjazdy/WeekdaysFragment.java" />
+        <ignore path="src/com/tomasz/rozkladjazdy/SaturdayFragment.java" />
+        <ignore path="src/com/tomasz/rozkladjazdy/SearchRouteFragment.java" />
+        <ignore path="src/com/tomasz/rozkladjazdy/SundayFragment.java" />
+        <ignore path="src/com/tomasz/rozkladjazdy/WeekdaysFragment.java" />
     </issue>
     <issue id="SdCardPath">
         <ignore path="src/com/example/rozkladjazdy/DataBaseHelper.java" />

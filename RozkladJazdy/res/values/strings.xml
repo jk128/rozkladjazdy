@@ -3,14 +3,20 @@
 
     <string name="app_name">Rozkład Jazdy</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ustawienia</string>
     <string name="title_activity_search">Wyszukaj Przystanek</string>
     <string name="title_activity_time_table">Rozkład jazdy</string>
     <string name="title_activity_search_line">Wybierz linie</string>
-    <string name="title_activity_show_line_variant">ShowLineVariants</string>
-    <string name="title_activity_show_linevariant">ShowLinevariant</string>
+    <string name="title_activity_show_line_variant">Warianty dla linii</string>
+    <string name="title_activity_show_linevariant">Warianty dla linii</string>
     <string name="dialog_delete_favorite_time_table">Czy usunąć wpis?</string>
     <string name="delete">usuń</string>
     <string name="cencel">anuluj</string>
+    <string name="source_bus_stop">Przystanek początkowy</string>
+    <string name="destination_bus_stop">Przystanek docelowy</string>
+    <string name="title_activity_proposed_route">Proponowane trasy</string>
+    <string name="favorite">Do ulubionych możesz dodać rozkład przystanku. Aby dodać wybrany rozkład jazdy do ulubionych wyszukaj interesujący Cię rozkład i stuknij:</string>
+    <string name="action_info">o aplikacji</string>
+    <string name="title_activity_about">About</string>
 
 </resources>

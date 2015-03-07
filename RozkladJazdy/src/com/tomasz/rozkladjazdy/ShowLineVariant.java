@@ -1,4 +1,6 @@
-package com.example.rozkladjazdy;
+package com.tomasz.rozkladjazdy;
+
+import com.example.rozkladjazdy.R;
 
 import android.support.v7.app.ActionBarActivity;
 import android.content.Context;
@@ -13,10 +15,11 @@ import android.widget.SimpleCursorTreeAdapter;
 
 public class ShowLineVariant extends ActionBarActivity {
 	private DataBaseHelper dbHelper;
-	String nazwaLinii;
-	String lineId;
-	String busStopId;
-	Cursor childCursor;
+	private String nazwaLinii;
+	private String lineId;
+	private String busStopId;
+	private String busStopName;
+	private Cursor childCursor;
 	
 
 	
@@ -34,7 +37,7 @@ public class ShowLineVariant extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_info) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -127,14 +130,13 @@ public class ShowLineVariant extends ActionBarActivity {
 				// Your child click code here
 				childCursor.moveToPosition(childPosition);
 				busStopId = childCursor.getString(0);
-				// Toast toast = Toast.makeText(ShowLineVariant.this, busStopId,
-				// Toast.LENGTH_LONG);
-				// toast.show();
+				busStopName=childCursor.getString(1);
 				Intent i = new Intent(ShowLineVariant.this,
 						TimeTableActivity.class);
 				Bundle args = new Bundle();
 				args.putString("busStopId", busStopId);
 				args.putString("lineId", lineId);
+				args.putString("nazwa", busStopName);
 				i.putExtras(args);
 				startActivity(i);
 				return true;

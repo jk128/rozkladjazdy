@@ -1,20 +1,25 @@
-package com.example.rozkladjazdy;
+package com.tomasz.rozkladjazdy;
 
 import java.io.IOException;
 
-import com.example.tabsswipe.adapter.TabsPagerAdapter;
 
-import com.example.tabsswipe.*;
+
+import com.example.rozkladjazdy.About;
 import com.example.rozkladjazdy.R;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
-import com.example.rozkladjazdy.DataBaseHelper;
+import com.tomasz.adapter.TabsPagerAdapter;
+import com.tomasz.rozkladjazdy.DataBaseHelper;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -22,6 +27,7 @@ public class MainActivity extends FragmentActivity implements
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
+	private boolean SearchFrg=false;
 	// Tab titles
 	private String[] tabs = { "Ulubione", "Menu", "Trasa" };
 
@@ -72,6 +78,7 @@ public class MainActivity extends FragmentActivity implements
 				// on changing the page
 				// make respected tab selected
 				actionBar.setSelectedNavigationItem(position);
+				
 			}
 
 			@Override
@@ -83,7 +90,11 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 	}
+ @Override
+ public void onStart(){
+	 super.onStart();
 
+ }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -105,5 +116,20 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_info) {
+			Intent intent = new Intent(this, About.class);
+			   
+		    startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 
 }

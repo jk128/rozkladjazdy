@@ -6,23 +6,30 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.rozkladjazdy.TimeTableActivity" > 
-   
+    tools:context="com.tomasz.rozkladjazdy.TimeTableActivity" >
 
-<ScrollView
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:scrollbars="vertical" >
-    
-    <TableLayout
-        android:id="@+id/tabela"
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical" >
+
+        <TableLayout
+            android:id="@+id/tabela"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="*"
+            android:stretchColumns="*" >
+        </TableLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textView_no_departure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:shrinkColumns="*"
-    android:stretchColumns="*"
- >
+       android:layout_centerHorizontal="true"
+       android:layout_centerVertical="true"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
- 
-    </TableLayout>
-</ScrollView>
 </RelativeLayout>

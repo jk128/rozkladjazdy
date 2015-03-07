@@ -1,4 +1,6 @@
-package com.example.rozkladjazdy;
+package com.tomasz.rozkladjazdy;
+
+import com.example.rozkladjazdy.R;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -36,9 +39,12 @@ public class WeekdaysFragment extends Fragment {
 		busStopId = extras.getString("busStopId");
 		lineId = extras.getString("lineId");
 		nazwa = extras.getString("nazwa");
-		StringBuilder tmp = new StringBuilder();
+		
 		Cursor mCursor = dbHelper.fetchTimeTableWeekDay(busStopId, lineId);
-
+		if(mCursor.getCount()==0){
+			TextView noDeparture = (TextView) rootView.findViewById(R.id.textView_no_departure);
+			noDeparture.setText("Brak odjazdów w wskazanym dniu.");
+		}
 		//
 		TableLayout tablelayout1;
 		tablelayout1 = (TableLayout) rootView.findViewById(R.id.tabela);
@@ -65,7 +71,7 @@ public class WeekdaysFragment extends Fragment {
 		rowTitle.addView(title, params);
 		rowTitle.addView(favorite);
 		tablelayout1.addView(rowTitle);
-		TableRow godz0 = new TableRow(getActivity());
+		TableRow godz0 = new TableRow(getActivity()); 
 		TableRow godz1 = new TableRow(getActivity());
 		TableRow godz2 = new TableRow(getActivity());
 		TableRow godz3 = new TableRow(getActivity());
@@ -90,7 +96,9 @@ public class WeekdaysFragment extends Fragment {
 		TableRow godz22 = new TableRow(getActivity());
 		TableRow godz23 = new TableRow(getActivity());
 		TableRow legenda = new TableRow(getActivity());
-
+		//
+		
+		
 		desc.setText(description[0]);
 		favorite.setOnClickListener(new OnClickListener() {
 
@@ -130,38 +138,72 @@ public class WeekdaysFragment extends Fragment {
 		int godz_21 = 0;
 		int godz_22 = 0;
 		int godz_23 = 0;
-		do {
-
+		boolean gray=true;
+		 while (mCursor.moveToNext()) {
+			
 			if (mCursor.getString(0).substring(0, 3).equals("00:")) {
-
+				if (godz_0 == 0) {
+					TextView tV = new TextView(getActivity());
+					if(gray){godz0.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
+					
+					tV.setText("0  ");
+					tV.setTextSize(28);
+					godz0.addView(tV);
+					godz_0++;
+				}
 				TextView tV_txt1 = new TextView(getActivity());
 
-				tV_txt1.setText(mCursor.getString(0));
-				tV_txt1.setTextSize(20);
+				tV_txt1.setText(mCursor.getString(0).substring(3));
+				tV_txt1.setTextSize(18);
 				godz0.addView(tV_txt1);
 
 			}
 			if (mCursor.getString(0).substring(0, 3).equals("01:")) {
-
+				if (godz_1 == 0) {
+					TextView tV = new TextView(getActivity());
+					if(gray){godz1.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
+					tV.setText("1  ");
+					tV.setTextSize(28);
+					godz1.addView(tV);
+					godz_1++;
+				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				godz1.addView(tV_txt1);
 
 			}
 			if (mCursor.getString(0).substring(0, 3).equals("02:")) {
-
+				if (godz_2 == 0) {
+					TextView tV = new TextView(getActivity());
+					if(gray){godz2.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
+					tV.setText("2  ");
+					tV.setTextSize(28);
+					godz2.addView(tV);
+					godz_2++;
+				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 				godz2.addView(tV_txt1);
 
 			}
 			if (mCursor.getString(0).substring(0, 3).equals("03:")) {
-
+				if (godz_3 == 0) {
+					TextView tV = new TextView(getActivity());
+					if(gray){godz3.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
+					tV.setText("3  ");
+					tV.setTextSize(28);
+					godz3.addView(tV);
+					godz_3++;
+				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 				godz3.addView(tV_txt1);
@@ -170,13 +212,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("04:")) {
 				if (godz_4 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz4.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
 					tV.setText("4  ");
 					tV.setTextSize(28);
-					godz5.addView(tV);
+					godz4.addView(tV);
 					godz_4++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 
@@ -187,13 +231,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("05:")) {
 				if (godz_5 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz5.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
 					tV.setText("5  ");
 					tV.setTextSize(28);
 					godz5.addView(tV);
 					godz_5++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 				godz5.addView(tV_txt1);
@@ -203,13 +249,15 @@ public class WeekdaysFragment extends Fragment {
 
 				if (godz_6 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz6.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
 					tV.setText("6  ");
 					tV.setTextSize(28);
 					godz6.addView(tV);
 					godz_6++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz6.addView(tV_txt1);
@@ -218,13 +266,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("07:")) {
 				if (godz_7 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz7.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
 					tV.setText("7  ");
 					tV.setTextSize(28);
 					godz7.addView(tV);
 					godz_7++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz7.addView(tV_txt1);
@@ -233,13 +283,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("08:")) {
 				if (godz_8 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz8.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
 					tV.setText("8  ");
 					tV.setTextSize(28);
 					godz8.addView(tV);
 					godz_8++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 				godz8.addView(tV_txt1);
@@ -248,13 +300,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("09:")) {
 				if (godz_9 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz9.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
 					tV.setText("9  ");
 					tV.setTextSize(28);
 					godz9.addView(tV);
 					godz_9++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 				godz9.addView(tV_txt1);
@@ -263,13 +317,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("10:")) {
 				if (godz_10 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz10.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("10  ");
 					tV.setTextSize(28);
 					godz10.addView(tV);
 					godz_10++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 				godz10.addView(tV_txt1);
@@ -278,13 +334,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("11:")) {
 				if (godz_11 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz11.setBackgroundColor(R.color.myBlue1);}
+					 gray=!gray;
 					tV.setText("11  ");
 					tV.setTextSize(28);
 					godz11.addView(tV);
 					godz_11++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz11.addView(tV_txt1);
@@ -293,13 +351,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("12:")) {
 				if (godz_12 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz12.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("12  ");
 					tV.setTextSize(28);
 					godz12.addView(tV);
 					godz_12++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				tV_txt1.setTextSize(18);
 				godz12.addView(tV_txt1);
@@ -308,13 +368,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("13:")) {
 				if (godz_13 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz13.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("13  ");
 					tV.setTextSize(28);
 					godz13.addView(tV);
 					godz_13++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz13.addView(tV_txt1);
@@ -323,13 +385,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("14:")) {
 				if (godz_14 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz14.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("14  ");
 					tV.setTextSize(28);
 					godz14.addView(tV);
 					godz_14++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz14.addView(tV_txt1);
@@ -338,13 +402,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("15:")) {
 				if (godz_15 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz15.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("15  ");
 					tV.setTextSize(28);
 					godz15.addView(tV);
 					godz_15++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz15.addView(tV_txt1);
@@ -353,13 +419,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("16:")) {
 				if (godz_16 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz16.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("16  ");
 					tV.setTextSize(28);
 					godz16.addView(tV);
 					godz_16++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz16.addView(tV_txt1);
@@ -368,13 +436,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("17:")) {
 				if (godz_17 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz17.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("17  ");
 					tV.setTextSize(28);
 					godz17.addView(tV);
 					godz_17++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz17.addView(tV_txt1);
@@ -383,13 +453,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("18:")) {
 				if (godz_18 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz18.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("18  ");
 					tV.setTextSize(28);
 					godz18.addView(tV);
 					godz_18++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz18.addView(tV_txt1);
@@ -398,13 +470,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("19:")) {
 				if (godz_19 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz19.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("19  ");
 					tV.setTextSize(28);
 					godz19.addView(tV);
 					godz_19++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz19.addView(tV_txt1);
@@ -413,13 +487,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("20:")) {
 				if (godz_20 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz20.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("20  ");
 					tV.setTextSize(28);
 					godz20.addView(tV);
 					godz_20++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz20.addView(tV_txt1);
@@ -428,13 +504,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("21:")) {
 				if (godz_21 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz21.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("21  ");
 					tV.setTextSize(28);
 					godz21.addView(tV);
 					godz_21++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz21.addView(tV_txt1);
@@ -443,13 +521,15 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("22:")) {
 				if (godz_22 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz22.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("22  ");
 					tV.setTextSize(28);
 					godz22.addView(tV);
 					godz_22++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz22.addView(tV_txt1);
@@ -458,20 +538,22 @@ public class WeekdaysFragment extends Fragment {
 			if (mCursor.getString(0).substring(0, 3).equals("23:")) {
 				if (godz_23 == 0) {
 					TextView tV = new TextView(getActivity());
+					if(gray){godz23.setBackgroundColor(R.color.myBlue1); }
+					 gray=!gray;
 					tV.setText("23  ");
 					tV.setTextSize(28);
 					godz23.addView(tV);
 					godz_23++;
 				}
 				TextView tV_txt1 = new TextView(getActivity());
-				tV_txt1.setText(mCursor.getString(0));
+				tV_txt1.setText(mCursor.getString(0).substring(3));
 				tV_txt1.setTextSize(18);
 				tV_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 				godz23.addView(tV_txt1);
 
 			}
 
-		} while (mCursor.moveToNext());
+		}
 		tablelayout1.addView(godz0);
 		tablelayout1.addView(godz1);
 		tablelayout1.addView(godz2);

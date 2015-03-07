@@ -1,12 +1,13 @@
-package com.example.rozkladjazdy;
+package com.tomasz.rozkladjazdy;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import com.tomasz.model.FavoriteTimeTable;
 
 
 
@@ -156,7 +157,7 @@ public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 }
 public Cursor fetchAllBusStops() {
 	 
-	  Cursor mCursor = myDataBase.rawQuery("SELECT _id, nazwa from przystanki;", null);
+	  Cursor mCursor = myDataBase.rawQuery("SELECT _id, nazwa, DL_GEOGR, SZER_GEOGR from przystanki;", null);
 	  if (mCursor != null) {
 	   mCursor.moveToFirst();
 	  }
@@ -224,10 +225,8 @@ public Cursor fetchAllLines() {
 	 }
 //******************
 
-public List<FavoriteTimeTable> getAllComments() {
+public List<FavoriteTimeTable> getAllFavoriteTimeTables() {
   List<FavoriteTimeTable> comments = new ArrayList<FavoriteTimeTable>();
-  String[] allColumns = { "_ID",
-	      "nazwa" };
 
  // Cursor cursor = myDataBase.query("ULUBIONE_ROZKL",allColumns,null, null, null, null, null);
   Cursor cursor = myDataBase.rawQuery("SELECT _ID as _id, busStopId, lineId, nazwa ||' LINIA: ' || LINIA AS NAZWA from ULUBIONE_ROZKL;", null);
@@ -287,10 +286,52 @@ public Cursor fetchLinesByBusStop(String idBusStop)throws SQLException {
 	  return mCursor;
 	 
 	 }
-public Cursor fetchTimeTableWeekDay(String busId, String lineId)throws SQLException {
+public Cursor fetchLinesByBus(String idBusStop)throws SQLException {
 	  Cursor mCursor = null;
 
-	   mCursor = myDataBase.rawQuery("select g.czas, g.oznaczenie from godz_odjazdu g, przystanki p, trasy t where p._id="+busId+" and t._id="+lineId+" and p._id=g.przystanek_id and t._id=g.TRASA_ID and dni_robocze;", null);
+	   mCursor = myDataBase.rawQuery("select t._id, t.nazwa from trasy t, trasa_przystanek tp where tp.przystanek_id="+idBusStop+" and t._id=tp.trasa_id;", null);
+	  
+	  if (mCursor != null) {
+	   mCursor.moveToFirst();
+	  }
+	  return mCursor;
+	 
+	 }
+public String fetchLinesNumberByBusStop(String idBusStop)throws SQLException {
+	  Cursor cursor = null;
+	  String s ="linie:";
+	  String poprz = null;
+	  cursor = myDataBase.rawQuery("select t._id, t.nazwa from trasy t, trasa_przystanek tp where tp.przystanek_id="+idBusStop+" and t._id=tp.trasa_id;", null);
+	 
+	   cursor.moveToFirst();
+	   StringBuffer sB = new StringBuffer(s);
+	   int i=0;
+	   while (!cursor.isAfterLast()) {
+		  if(i==0)
+		  {
+			  poprz=cursor.getString(1);
+		   sB.append(cursor.getString(1));
+		   sB.append(" ");
+		  }
+		  else if(!poprz.equals(cursor.getString(1)))
+		  {
+			  poprz=cursor.getString(1);
+			   sB.append(cursor.getString(1));
+			   sB.append(" ");
+		  }
+		   i++;
+	     cursor.moveToNext();
+	   }
+	   
+	   s=sB.toString();
+	 
+	   return s;
+	 }
+public Cursor fetchTimeTableWeekDay(String busId, String lineId)throws SQLException {
+	  Cursor mCursor = null;
+	  Cursor id =myDataBase.rawQuery("select _id from trasa_przystanek where przystanek_id="+busId+" and trasa_id="+lineId+";", null);
+	  id.moveToFirst();
+	   mCursor = myDataBase.rawQuery("select czas from godz_odjazdu  where trasa_przystanek_id="+id.getString(0)+" and dni_robocze;", null);
 	  
 	  if (mCursor != null) {
 	   mCursor.moveToFirst();
@@ -301,7 +342,21 @@ public Cursor fetchTimeTableWeekDay(String busId, String lineId)throws SQLExcept
 public Cursor fetchTimeTableSaturday(String busId, String lineId)throws SQLException {
 	  Cursor mCursor = null;
 
-	   mCursor = myDataBase.rawQuery("select g.czas, g.oznaczenie from godz_odjazdu g, przystanki p, trasy t where p._id="+busId+" and t._id="+lineId+" and p._id=g.przystanek_id and t._id=g.TRASA_ID and sobota;", null);
+	  Cursor id =myDataBase.rawQuery("select _id from trasa_przystanek where przystanek_id="+busId+" and trasa_id="+lineId+";", null);
+	  id.moveToFirst();
+	   mCursor = myDataBase.rawQuery("select czas from godz_odjazdu  where trasa_przystanek_id="+id.getString(0)+" and sobota;", null);
+	  
+	  if (mCursor != null) {
+	   mCursor.moveToFirst();
+	  }
+	  return mCursor;
+	 
+	 }
+public Cursor fetchTimeTableSunday(String busId, String lineId)throws SQLException {
+	  Cursor mCursor = null;
+	  Cursor id =myDataBase.rawQuery("select _id from trasa_przystanek where przystanek_id="+busId+" and trasa_id="+lineId+";", null);
+	  id.moveToFirst();
+	   mCursor = myDataBase.rawQuery("select czas from godz_odjazdu  where trasa_przystanek_id="+id.getString(0)+" and niedziela;", null);
 	  
 	  if (mCursor != null) {
 	   mCursor.moveToFirst();
@@ -321,10 +376,63 @@ public String[] getDescription(String lineId) throws SQLException {
 	  return description;
 	 
 	 }
+//dodane**************************************************************************** 26.11
+public Cursor fetchRouteBusStopId(String busId, String lineId)throws SQLException {
+	  Cursor mCursor = null;
+	 
+	   mCursor = myDataBase.rawQuery("select _id, kol_na_trasie from trasa_przystanek where przystanek_id="+busId+" and trasa_id="+lineId+";", null);
+	  
+	  if (mCursor != null) {
+	   mCursor.moveToFirst();
+	   
+	  }
+	  return mCursor;
+	 
+	 }
+//dodane**************************************************************************** 26.11
+public Cursor fetchTimeTableWeekDayNew(String lineBusStopId)throws SQLException {
+	  Cursor mCursor = null;
 
+	   mCursor = myDataBase.rawQuery("select czas from godz_odjazdu where trasa_przystanek_id="+lineBusStopId+" and dni_robocze;", null);
+	  
+	  if (mCursor != null) {
+	   mCursor.moveToFirst();
+	  }
+	  return mCursor;
+	 
+	 }
+public Cursor fetchTimeTableSaturdayNew(String lineBusStopId)throws SQLException {
+	  Cursor mCursor = null;
 
-// Add your public helper methods to access and get content from the database.
-// You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
-// to you to create adapters for your views.
- 
+	   mCursor = myDataBase.rawQuery("select czas from godz_odjazdu where trasa_przystanek_id="+lineBusStopId+" and sobota;", null);
+	  
+	  if (mCursor != null) {
+	   mCursor.moveToFirst();
+	  }
+	  return mCursor;
+	 
+	 }
+public Cursor fetchTimeTableSundayNew(String lineBusStopId)throws SQLException {
+	  Cursor mCursor = null;
+
+	   mCursor = myDataBase.rawQuery("select czas from godz_odjazdu where trasa_przystanek_id="+lineBusStopId+" and niedziela;", null);
+	  
+	  if (mCursor != null) {
+	   mCursor.moveToFirst();
+	  }
+	  return mCursor;
+	 
+	 }
+//dodane**************************************************************************** 26.11
+public Cursor fetchSpecificBusStops(int orderSource, int orderDestination, String trasaId)throws SQLException {
+	  Cursor mCursor = null;
+
+	   mCursor = myDataBase.rawQuery("select _id from trasa_przystanek where trasa_id="+trasaId+" and KOL_NA_TRASIE BETWEEN " + orderSource+" AND "+orderDestination+";", null);
+	  
+	  if (mCursor != null) {
+	   mCursor.moveToFirst();
+	  }
+	  return mCursor;
+	 
+	 }
 }

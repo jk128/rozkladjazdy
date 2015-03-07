@@ -1,11 +1,16 @@
-package com.example.rozkladjazdy;
+package com.tomasz.rozkladjazdy;
+
+import com.example.rozkladjazdy.About;
+import com.example.rozkladjazdy.R;
 
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +19,14 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class SearchBusStopActivity extends ActionBarActivity {
 	private DataBaseHelper dbHelper;
 	 private SimpleCursorAdapter dataAdapter;
 	public int  mGroupIdColumnIndex;
+	private boolean SearchFrg=false;
+	private boolean dir;
 	ShowLineDialog showDialog =new ShowLineDialog();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +34,12 @@ public class SearchBusStopActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_search_bus_stop);
 		dbHelper = new DataBaseHelper(this);
 		dbHelper.openDataBase();
-		displayListView();
-		//fillData();
+		Bundle extras = this.getIntent().getExtras();
+		SearchFrg = extras.getBoolean("SrchFragDest");
+		dir=extras.getBoolean("source");
+		
 		//db.close();
+		displayListView();
 	}
 
 	@Override
@@ -44,7 +55,10 @@ public class SearchBusStopActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_info) {
+			Intent intent = new Intent(this, About.class);
+			   
+		    startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -63,16 +77,27 @@ public class SearchBusStopActivity extends ActionBarActivity {
 			     int position, long id) {
 			   // Get the cursor, positioned to the corresponding row in the result set
 			   Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-			 
-			   // Get the state's capital from this row in the database.
 			   String busStopId =cursor.getString(cursor.getColumnIndexOrThrow("_id"));
 			   String nazwa=cursor.getString(cursor.getColumnIndexOrThrow("NAZWA"));
 		       Bundle args = new Bundle();
 		       args.putString("id", busStopId);
 		       args.putString("nazwa",nazwa);
+		      
+		       if(!SearchFrg){
 		       showDialog.setArguments(args);
 		       // startActivity(i);
 		       showDialog.show(getSupportFragmentManager(), "");
+		       } else {
+		    	   Intent intent = getIntent();
+		    	   intent.putExtra("nazwa", nazwa);
+		    	   intent.putExtra("id", busStopId);
+		    	   intent.putExtra("source", dir);
+		    	   
+		    	   setResult(RESULT_OK, intent);
+		    	   finish();
+		    	   
+		       }
+		
 			   }
 			  });
 		  EditText myFilter = (EditText) findViewById(R.id.busStopName);
